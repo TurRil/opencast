@@ -317,22 +317,18 @@ define(['require', 'jquery', 'underscore', 'backbone', 'basil', 'bowser', 'engag
     var newTracksArray = [];
 
     for (var i = 0; i < tracks.length; i++) {
-      var found = false,
-          number_of_tags = tracks[i].tags ? tracks[i].tags.tag.length : 0;
-      for (var j = 0; j < number_of_tags; j++) {
-        for (var k = 0; k < filterTags.length; k++) {
-          if (tracks[i].tags.tag[j] == filterTags[k].trim()) {
-            found = true;
+      if (tracks[i].tags) {
+        if (tracks[i].tags.tag) {
+          if (_.intersection(tracks[i].tags.tag, filterTagsArray).length > 0) {
             newTracksArray.push(tracks[i]);
-            break;
           }
         }
-        if (found) break;
       }
     }
 
     // avoid filtering to an empty list, better play something than nothing
     if (newTracksArray.length < 1) {
+      console.warn("No valid track tags found - returning tracks.");
       return tracks;
     }
     return newTracksArray;
@@ -419,20 +415,21 @@ define(['require', 'jquery', 'underscore', 'backbone', 'basil', 'bowser', 'engag
     if (filterFormats == undefined) {
       return tracks;
     }
-    var filterFormatsArray = filterFormats.split(',');
-    var newTracksArray = [];
+    var newTracksArray = [],
+        filterFormatsArray = filterFormats.map(x => Utils.preferredFormat(x.trim()))
+                                          .filter(x => x);
 
     for (var i = 0; i < tracks.length; i++) {
-      for (var j = 0; j < filterFormatsArray.length; j++) {
-        var formatMimeType = Utils.preferredFormat(filterFormatsArray[j].trim());
-        if (formatMimeType == undefined) return tracks; // if illegal mimetypes are configured ignore config
-        if (tracks[i].mimetype == formatMimeType) {
-          newTracksArray.push(tracks[i]);
-          break;
-        }
+      if (filterFormatsArray.includes(tracks[i].mimetype)) {
+        newTracksArray.push(tracks[i]);
       }
     }
 
+    // avoid filtering to an empty list, better play something than nothing
+    if (newTracksArray.length < 1) {
+      console.warn("No valid track formats found - returning tracks.");
+      return tracks;
+    }
     return newTracksArray;
   }
 
@@ -2207,7 +2204,11 @@ define(['require', 'jquery', 'underscore', 'backbone', 'basil', 'bowser', 'engag
 
     var allowedTags = Engage.model.get('meInfo').get('allowedtags');
     var allowedFormats = Engage.model.get('meInfo').get('allowedformats');
+    console.log(allowedTags);
+    console.log(allowedFormats);
+    console.log(mediaInfo.tracks);
     mediaInfo.tracks = filterTracksByFormat(filterTracksByTag(mediaInfo.tracks, allowedTags), allowedFormats);
+    console.log(mediaInfo.tracks);
 
     return {
       flavors: flavors.substring(0, flavors.length - 1),
