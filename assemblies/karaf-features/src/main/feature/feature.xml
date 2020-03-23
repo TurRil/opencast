@@ -613,7 +613,7 @@
 
   <feature name="opencast-services-processing-light-load-exec" version="${project.version}">
     <feature start-level="80">opencast-core</feature>
-    
+
     <bundle start-level="82">mvn:org.opencastproject/opencast-execute-api/${project.version}</bundle>
     <bundle start-level="82">mvn:org.opencastproject/opencast-execute-impl/${project.version}</bundle>
   </feature>
@@ -622,6 +622,7 @@
     <feature start-level="80">opencast-core</feature>
     <feature start-level="80">opencast-services-processing-heavy-load</feature>
     <feature start-level="80">opencast-services-processing-light-load</feature>
+    <feature start-level="80">opencast-services-processing-light-load-exec</feature>
 
     <bundle start-level="82">mvn:org.opencastproject/opencast-publication-service-api/${project.version}</bundle>
     <bundle start-level="82">mvn:org.opencastproject/opencast-publication-service-youtube-v3/${project.version}</bundle>
@@ -631,12 +632,11 @@
     <bundle start-level="82">mvn:org.opencastproject/opencast-workflow-service-remote/${project.version}</bundle>
   </feature>
 
-  <feature name="opencast-workerexec" version="${project.version}">
+  <feature name="opencast-workernoexec" version="${project.version}">
     <feature start-level="80">opencast-core</feature>
     <feature start-level="80">opencast-services-processing-heavy-load</feature>
     <feature start-level="80">opencast-services-processing-light-load</feature>
-    <feature start-level="80">opencast-services-processing-light-load-exec</feature>
-
+    
     <bundle start-level="82">mvn:org.opencastproject/opencast-publication-service-api/${project.version}</bundle>
     <bundle start-level="82">mvn:org.opencastproject/opencast-publication-service-youtube-v3/${project.version}</bundle>
     <bundle start-level="82">mvn:org.opencastproject/opencast-runtime-info-ui/${project.version}</bundle>

@@ -10,7 +10,7 @@
   <properties>
     <opencast.basedir>${project.basedir}/../..</opencast.basedir>
   </properties>
-  <artifactId>opencast-dist-workerexec</artifactId>
+  <artifactId>opencast-dist-workernoexec</artifactId>
   <packaging>karaf-assembly</packaging>
   <name>Assemblies // Distribution Worker</name>
   <dependencies>
@@ -108,7 +108,7 @@
             <feature>eclipselink</feature>
             <feature>wrap</feature>
             <!-- Opencast features -->
-            <feature>opencast-workerexec</feature>
+            <feature>opencast-workernoexec</feature>
           </bootFeatures>
         </configuration>
       </plugin>
